@@ -8,7 +8,6 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"
     user_id = Column(BigInteger, primary_key=True, unique=True, autoincrement=False)
-    full_name = Column(String)
     last_connect = Column(DateTime)
 
 

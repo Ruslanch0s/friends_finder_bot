@@ -20,8 +20,7 @@ class UserLogMiddleware(BaseMiddleware):
         db_repository = data.get("db_repository")
         user_from_db = await db_repository.user_repository.get_user_by_id(user_id=message.from_user.id)
         if not user_from_db:
-            user = User(user_id=message.from_user.id, full_name=message.from_user.full_name,
-                        last_connect=datetime.now())
+            user = User(user_id=message.from_user.id, last_connect=datetime.now())
             await db_repository.user_repository.create_user(user)
 
         await handler(event, data)

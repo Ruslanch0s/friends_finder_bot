@@ -25,7 +25,7 @@ class UserRepository:
     async def create_user(self, user: User):
         async with self.db_manager.async_session() as session:
             query = (
-                insert(User).values(user_id=user.user_id, full_name=user.full_name, last_connect=user.last_connect)
+                insert(User).values(user_id=user.user_id, last_connect=user.last_connect)
             )
             await session.execute(query)
             await session.commit()
