@@ -56,6 +56,23 @@ class UserRepository:
             result = await session.execute(query)
             return result.fetchall()
 
+    async def update_interview(self, user_id: int, cashback_points: int, clients_count: int, go_points: int,
+                               membership_status: str, activity: str, city: str, strengths: str, shortage: str):
+        async with self.db_manager.async_session() as session:
+            query = (update(User).where(User.user_id == user_id).values(
+                interview=True,
+                cashback_points=cashback_points,
+                clients_count=clients_count,
+                go_points=go_points,
+                membership_status=membership_status,
+                activity=activity,
+                city=city,
+                strengths=strengths,
+                shortage=shortage
+            ))
+            await session.execute(query)
+            await session.commit()
+
 
 class PairRepository:
     def __init__(self, db_manager: DatabaseManager):

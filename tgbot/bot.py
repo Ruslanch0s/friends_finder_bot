@@ -6,7 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from tgbot.db.manager import DatabaseManager
 from tgbot.db.repository import Repository
-from tgbot.handlers import start, friends
+from tgbot.handlers import start, friends, interview
 from tgbot.middlewares.user_log import UserLogMiddleware
 from tgbot.services.scheduler_tasks import job
 
@@ -23,6 +23,7 @@ async def main():
     dp.message.middleware(UserLogMiddleware())
     dp.include_routers(
         start.router,
+        interview.router,
         friends.router
     )
 

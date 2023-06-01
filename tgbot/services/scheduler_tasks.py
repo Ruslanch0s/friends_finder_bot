@@ -4,7 +4,7 @@ from aiogram import Bot
 from tgbot.db.repository import Repository
 import datetime
 from tgbot.services.friend_finder import finder
-from tgbot.keyboards import keyboard
+from tgbot.services.keyboards import find_keyboard
 
 #
 # async def message_manager(**kwargs):
@@ -24,4 +24,4 @@ async def job(db_repository: Repository, bot: Bot):
         if friend:
             user = await bot.get_chat(chat_id=friend.user_id)
             await bot.send_message(chat_id=user_data[0], text=f"Мы нашли тебе нового друга. \n{user.full_name} https://t.me/{user.username}",
-                                   reply_markup=keyboard)
+                                   reply_markup=find_keyboard)
