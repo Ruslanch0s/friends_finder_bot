@@ -20,7 +20,7 @@ async def main():
 
     bot = Bot(token="5991450214:AAFAjn0ZHqHV88lpjr4r9uTm0aClk1HWcE0", parse_mode="HTML")
     dp = Dispatcher(db_repository=db_repository)
-    dp.message.middleware(UserLogMiddleware())
+    dp.message.outer_middleware(UserLogMiddleware())
     dp.include_routers(
         start.router,
         interview.router,

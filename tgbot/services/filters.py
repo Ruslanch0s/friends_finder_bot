@@ -2,6 +2,7 @@ from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
 from tgbot.db.repository import Repository
+from tgbot.services.keyboards import find_keyboard
 
 
 class ExistInterviewFilter(BaseFilter):  # [1]
@@ -11,5 +12,6 @@ class ExistInterviewFilter(BaseFilter):  # [1]
             print("True")
             return True
         else:
-            await message.answer(f"Пожалуйста заполни анкету 'О себе' прежде чем искать новые знакомства")
+            await message.answer(f"Пожалуйста заполни анкету 'О себе' прежде чем искать новые знакомства",
+                                 reply_markup=find_keyboard)
             return False

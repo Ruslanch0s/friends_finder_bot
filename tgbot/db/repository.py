@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import insert, select, update
-from sqlalchemy import text
+from sqlalchemy import text, and_
 
 from tgbot.db.manager import DatabaseManager
 from tgbot.db.models import User, Base, Pair
@@ -51,7 +51,7 @@ class UserRepository:
         async with self.db_manager.async_session() as session:
             ten_sec_ago = datetime.datetime.now() - time_diff
             query = (
-                select(User.user_id).where(User.last_connect < ten_sec_ago)
+                select(User.user_id).where(and_(User.last_connect < ten_sec_ago, User.interview == True))
             )
             result = await session.execute(query)
             return result.fetchall()
@@ -86,9 +86,11 @@ class PairRepository:
 
     async def get_free_friends_ids_for_user(self, user_id: int):
         async with self.db_manager.async_session() as session:
-            query = f"SELECT user_id FROM users WHERE user_id != {user_id} " \
+            query = f"SELECT user_id FROM users " \
+                    f"WHERE user_id != {user_id} " \
                     f"AND user_id NOT IN (SELECT user_id_2 FROM pairs WHERE user_id_1 = {user_id}) " \
-                    f"AND user_id NOT IN (SELECT user_id_1 FROM pairs WHERE user_id_2 = {user_id})"""
+                    f"AND user_id NOT IN (SELECT user_id_1 FROM pairs WHERE user_id_2 = {user_id})" \
+                    f"AND interview = 'true'"""
             result = await session.execute(text(query))
             data = result.fetchall()
             return data
