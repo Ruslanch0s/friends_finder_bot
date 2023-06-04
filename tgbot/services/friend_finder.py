@@ -21,5 +21,17 @@ async def send_new_friend(user_id: int, db_repository: Repository, bot: Bot):
     if new_friend:
         user = await bot.get_chat(chat_id=new_friend.user_id)
         await bot.send_message(chat_id=user_id,
-                               text=f"Мы нашли тебе нового друга. \n{user.full_name} https://t.me/{user.username}",
+                               text=f"Мы нашли тебе нового друга. \n{user.full_name} https://t.me/{user.username}"
+                                    f"\nКешбек: {new_friend.cashback_points}"
+                                    f"\nКол-во активных клиентов: {new_friend.clients_count}"
+                                    f"\nГО: {new_friend.go_points}"
+                                    f"\nСтатус участия: {new_friend.membership_status}"
+                                    f"\nДеятельность: {new_friend.activity}"
+                                    f"\nГород: {new_friend.city}"
+                                    f"\nСильные стороны: {new_friend.strengths}"
+                                    f"\nНе хватает: {new_friend.shortage}"
+                               ,
                                reply_markup=find_keyboard)
+        return True
+    else:
+        return False

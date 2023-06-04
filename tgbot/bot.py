@@ -28,10 +28,10 @@ async def main():
     )
 
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(job, "interval", seconds=10, args=[db_repository, bot])
+    last_search_friend_sec = 900
+    scheduler.add_job(job, "interval", seconds=900, args=[db_repository, bot, last_search_friend_sec])
     scheduler.start()
 
-    # Запускаем бота и пропускаем все накопленные входящие
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 
