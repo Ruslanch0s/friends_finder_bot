@@ -18,7 +18,7 @@ async def main():
     db_repository = Repository(db_manager=db_manager)
     await db_repository.create_all_models()
 
-    bot = Bot(token="5991450214:AAFAjn0ZHqHV88lpjr4r9uTm0aClk1HWcE0", parse_mode="HTML")
+    bot = Bot(token="5991450214:AAEyt_20z48oEBmDgjdN3MWf8H366BoRPA0", parse_mode="HTML")
     dp = Dispatcher(db_repository=db_repository)
     dp.message.outer_middleware(UserLogMiddleware())
     dp.include_routers(
