@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
@@ -14,7 +13,8 @@ logging.basicConfig(level=logging.INFO)
 
 
 async def main():
-    db_manager = DatabaseManager(db_url="postgresql+psycopg://postgres:qwerty@127.0.0.1:6543/postgres", echo=True)
+    db_manager = DatabaseManager(db_url="postgresql+psycopg://postgres:qwerty@friend_finder_postgres/postgres",
+                                 echo=True)
     db_repository = Repository(db_manager=db_manager)
     await db_repository.create_all_models()
 
@@ -28,13 +28,9 @@ async def main():
     )
 
     scheduler = AsyncIOScheduler()
-    last_search_friend_sec = 900
+    last_search_friend_sec = 14400
     scheduler.add_job(job, "interval", seconds=900, args=[db_repository, bot, last_search_friend_sec])
     scheduler.start()
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
